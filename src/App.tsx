@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import './App.css'
 
 function App() {
@@ -30,23 +30,23 @@ function App() {
     localStorage.setItem("@tasks", JSON.stringify(tasks))
   },[tasks])
 
-  function handleRegister() {
-    if (!input) {
-      alert("Digite uma tarefa")
-      return
-    }
+  const handleRegister = useCallback(()=>{
+      if (!input) {
+        alert("Digite uma tarefa")
+        return
+      }
 
-    if (editTask.enabled) {
-      handleSaveEdit()
-      return
-    }
+      if (editTask.enabled) {
+          handleSaveEdit()
+          return
+      }
 
     //Adicionar nova tarefa ao array de tarefas
     setTasks(prev => [...prev, input])
 
     //Limpar o campo do input
     setInput("")
-  }
+  },[input, tasks])
 
   function handleDelete(item: string) {
 
